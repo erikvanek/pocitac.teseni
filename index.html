@@ -45,9 +45,11 @@ class Counter extends React.Component {
     componentDidMount() {
         const itemsFromStorage = localStorage.getItem(storagePrefix)
         if (itemsFromStorage && itemsFromStorage.length) {
-            this.setState({...this.state, items: JSON.parse(itemsFromStorage)})
+            this.setState({...this.state, items: JSON.parse(itemsFromStorage).sort(this.sortFunction)})
         }
     }
+
+    sortFunction = (a,b) => new Date(a.when).getTime() - new Date(b.when).getTime()
 
     render() {
         const items = this.state.items.map(item => <div key={item.timestamp}>{item.wish} {item.binding} {new Date(item.when).toLocaleString('cs-CS')}</div>)
@@ -86,7 +88,7 @@ class Counter extends React.Component {
         const withNewWish = [...this.state.items, newWish]
 
         localStorage.setItem(storagePrefix, JSON.stringify(withNewWish))
-        this.setState({...this.state, items: withNewWish})
+        this.setState({...this.state, items: withNewWish.sort(this.sortFunction)})
         console.log(this.state)
     }
 
