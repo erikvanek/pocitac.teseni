@@ -1,5 +1,8 @@
 "use strict";
 
+
+import { format } from 'timeago.js';
+
 const e = React.createElement;
 
 const bindings = ["což bude", "kterou uvidím", "kterého uvidím", "co se stane"];
@@ -18,24 +21,27 @@ class Counter extends React.Component {
     };
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     const itemsFromStorage = localStorage.getItem(storagePrefix);
     if (itemsFromStorage && itemsFromStorage.length) {
+      let items = JSON.parse(itemsFromStorage);
+
+      items = items.map(item => ({...item, remaining: format(item.when, 'en_US')}));
       this.setState({
         ...this.state,
-        items: JSON.parse(itemsFromStorage).sort(this.sortFunction)
+        items: items.sort(this.sortFunction)
       });
     }
   }
 
-  sortFunction(a, b) {
+  sortFunction = (a, b) =>  {
     return new Date(a.when).getTime() - new Date(b.when).getTime();
   }
 
-  render() {
+  render = () => {
     const items = this.state.items.map(item => (
       <div key={item.timestamp}>
-        {item.wish} {item.binding} {new Date(item.when).toLocaleString("cs-CS")}
+        {item.wish} {item.binding} {item.remaining}
       </div>
     ));
     return (
@@ -71,10 +77,6 @@ class Counter extends React.Component {
     );
   }
 
-  componentDidUpdate() {
-    //console.log(this.state);
-    return true;
-  };
 
   saveWish = () => {
     const newWish = {
@@ -82,6 +84,7 @@ class Counter extends React.Component {
       when: this.state.when,
       timestamp: new Date().getTime()
     };
+    newWish.remaining = format(newWish.when, 'en_US');
     console.log(newWish);
     const withNewWish = [...this.state.items, newWish];
 
@@ -109,3 +112,4 @@ class Counter extends React.Component {
 }
 
 ReactDOM.render(<Counter />, document.getElementById("app"));
+
