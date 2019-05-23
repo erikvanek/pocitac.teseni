@@ -1,0 +1,35 @@
+{
+  "name": "pocitac.teseni",
+  "version": "1.0.0",
+  "description": "Wishlist countdown. Simply enter what you're looking forward to and see how much time is left to enjoy it 🌈",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --open --mode development",
+    "build": "webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erikvanek/pocitac.teseni.git"
+  },
+  "author": "erikvanek",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/erikvanek/pocitac.teseni/issues"
+  },
+  "homepage": "https://github.com/erikvanek/pocitac.teseni#readme",
+  "dependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "react": "^16.8.6",
+    "webpack": "^4.32.2",
+    "webpack-dev-server": "^3.4.1"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.3.2"
+  }
+}
