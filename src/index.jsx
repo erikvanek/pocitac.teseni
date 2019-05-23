@@ -76,7 +76,7 @@ class Counter extends React.Component {
     return true;
   };
 
-  saveWish() {
+  saveWish = () => {
     const newWish = {
       wish: this.state.wish,
       when: this.state.when,
@@ -93,16 +93,16 @@ class Counter extends React.Component {
     console.log(this.state);
   };
 
-  deleteAll() {
+  deleteAll = () => {
     localStorage.removeItem(storagePrefix);
     this.setState({ ...this.state, items: [] });
   };
 
-  wishChanged(wish) {
+  wishChanged = wish => {
     this.setState({ ...this.state, wish: wish.target.value });
   };
 
-  dateChanged(date) {
+  dateChanged = date => {
     //console.log(date.target.value);
     this.setState({ ...this.state, when: new Date(date.target.value) });
   };
