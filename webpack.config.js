@@ -24,7 +24,11 @@ module.exports = {
   plugins: [
     new HtmlWebPackPlugin({
       template: "./index.html",
-      filename: "./index.html"
+      filename: "./index.html",
     })
-  ]
+  ],
+  output: {
+    filename: '[name].[contenthash].js',
+    path: path.resolve(__dirname, 'dist')
+  }
 };
