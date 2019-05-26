@@ -49,7 +49,9 @@ class Counter extends React.Component {
       </div>
     ));
     return (
-      <div id="wishlist-counter-app">
+      <div id="wishlist-counter-app" style={{display: 'flex', 
+        'flexDirection': 'column',
+        'alignItems': 'center'}}>
         <h1>Počítač těšení 🌈</h1>
         <div className="row">
           Těším se na{" "}
