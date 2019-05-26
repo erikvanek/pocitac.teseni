@@ -1,7 +1,8 @@
 "use strict";
 
-
-import { format } from 'timeago.js';
+import { format } from "timeago.js";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 const e = React.createElement;
 
@@ -26,17 +27,20 @@ class Counter extends React.Component {
     if (itemsFromStorage && itemsFromStorage.length) {
       let items = JSON.parse(itemsFromStorage);
 
-      items = items.map(item => ({...item, remaining: format(item.when, 'en_US')}));
+      items = items.map(item => ({
+        ...item,
+        remaining: format(item.when, "en_US")
+      }));
       this.setState({
         ...this.state,
         items: items.sort(this.sortFunction)
       });
     }
-  }
+  };
 
-  sortFunction = (a, b) =>  {
+  sortFunction = (a, b) => {
     return new Date(a.when).getTime() - new Date(b.when).getTime();
-  }
+  };
 
   render = () => {
     const items = this.state.items.map(item => (
@@ -64,10 +68,12 @@ class Counter extends React.Component {
             required
           />
         </div>
-        <button disabled={!!this.isValid} onClick={this.saveWish}>
-          Těšit se!
-        </button>
-        <button onClick={this.deleteAll}>Vše smazat</button>
+        <div style={{display: 'flex'}}>
+          <button disabled={!!this.isValid} onClick={this.saveWish}>
+            Těšit se!
+          </button>
+          <button onClick={this.deleteAll}>Vše smazat</button>
+        </div>
 
         <div className="row">
           <h2>Na co už se těším?</h2>
@@ -75,8 +81,7 @@ class Counter extends React.Component {
         </div>
       </div>
     );
-  }
-
+  };
 
   saveWish = () => {
     const newWish = {
@@ -84,7 +89,7 @@ class Counter extends React.Component {
       when: this.state.when,
       timestamp: new Date().getTime()
     };
-    newWish.remaining = format(newWish.when, 'en_US');
+    newWish.remaining = format(newWish.when, "en_US");
     console.log(newWish);
     const withNewWish = [...this.state.items, newWish];
 
@@ -112,4 +117,3 @@ class Counter extends React.Component {
 }
 
 ReactDOM.render(<Counter />, document.getElementById("app"));
-
