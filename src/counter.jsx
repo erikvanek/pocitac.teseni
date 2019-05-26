@@ -1,6 +1,10 @@
 
 import { format } from "timeago.js";
 import React from 'react';
+import Button from '@material-ui/core/Button';
+
+import DeleteIcon from '@material-ui/icons/Delete';
+import TextField from '@material-ui/core/TextField';
 
 const bindings = ["což bude", "kterou uvidím", "kterého uvidím", "co se stane"];
 const storagePrefix = "pleasure-counter-items";
@@ -38,6 +42,7 @@ export class Counter extends React.Component {
   };
 
   render = () => {
+
     const items = this.state.items.map(item => (
       <div key={item.timestamp}>
         {item.wish} {item.binding} {item.remaining}
@@ -49,27 +54,40 @@ export class Counter extends React.Component {
         'alignItems': 'center'}}>
         <h1>Počítač těšení 🌈</h1>
         <div className="row">
-          Těším se na{" "}
-          <input
-            type="text"
-            placeholder="něco super"
-            onChange={this.wishChanged}
-          />
+          <TextField
+        value={this.state.wish}
+        label="Těším se na"
+        onChange={this.wishChanged}
+        margin="normal"
+        required
+      />
         </div>
         <div className="row">
-          což bude{" "}
-          <input
+          <TextField
+            id="datetime-local"
+            label="Což bude"
+            type="datetime-local"
+            defaultValue={this.state.when}
+            onChange={this.dateChanged}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          {/* <input
             type="datetime-local"
             min={this.now}
             onChange={this.dateChanged}
             required
-          />
+          /> */}
         </div>
         <div style={{display: 'flex'}}>
-          <button disabled={!this.state.wish || !this.state.when} onClick={this.saveWish} >
+          <Button disabled={!this.state.wish || !this.state.when} onClick={this.saveWish} variant="outlined" color="primary" style={{height: '4rem'}}>
             Těšit se!
-          </button>
-          <button onClick={this.deleteAll}>Vše smazat</button>
+          </Button>
+          <Button onClick={this.deleteAll} color="secondary" variant="outlined" style={{width: '12rem', height: '4rem'}}>
+          Vše smazat
+          <DeleteIcon />
+          </Button>
         </div>
 
         <div className="row">
