@@ -37,4 +37,4 @@ jobs:
       - run: rm dist/* 
       - run: yarn build
       - run: yarn test
-      - run: git subtree push --prefix dist upstream gh-pages
+      - run: git subtree push --prefix dist origin gh-pages
