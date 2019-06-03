@@ -134,14 +134,12 @@ export class Counter extends React.Component {
 
         {this.state.selectedTab === 0 && (
           <div className='row'>
-            <h2>Na co už se těším?</h2>
             {activeWishes}
           </div>
         )}
 
         {this.state.selectedTab === 1 && (
           <div className='row'>
-            <h2>Co už bylo?</h2>
             {passedWishes}
           </div>
         )}
