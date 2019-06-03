@@ -47,11 +47,18 @@ export class Counter extends React.Component {
   }
 
   render = () => {
-    const items = this.state.items.map(item => (
+    const activeWishes = currentWishes(this.state.items, this.state.now).map(item => (
       <div key={item.timestamp}>
         {item.wish} {item.binding} {item.remaining}
       </div>
     ))
+
+    const passedWishes = oldWishes(this.state.items, this.state.now).map(item => (
+      <div key={item.timestamp}>
+        {item.wish} {item.binding} {item.remaining}
+      </div>
+    ))
+
     return (
       <div
         id='wishlist-counter-app'
@@ -112,7 +119,11 @@ export class Counter extends React.Component {
 
         <div className='row'>
           <h2>Na co už se těším?</h2>
-          {items}
+          {activeWishes}
+        </div>
+        <div className='row'>
+          <h2>Co uz bylo?</h2>
+          {passedWishes}
         </div>
       </div>
     )
@@ -154,3 +165,7 @@ export class Counter extends React.Component {
     })
   }
 }
+
+export const currentWishes = (wishes, now) => wishes.filter(wish => wish.when > now)
+
+export const oldWishes = (wishes, now) => wishes.filter(wish => wish.when <= now)
