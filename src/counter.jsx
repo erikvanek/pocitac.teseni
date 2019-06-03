@@ -10,9 +10,15 @@ import Button from '@material-ui/core/Button'
 
 import DeleteIcon from '@material-ui/icons/Delete'
 import TextField from '@material-ui/core/TextField'
+import Tabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
 
 const bindings = ['což bude', 'kterou uvidím', 'kterého uvidím', 'co se stane']
 const storagePrefix = 'pleasure-counter-items'
+
+const smallSize = '4rem'
+const midSize = '12rem'
+const bigSize = '16rem'
 
 export class Counter extends React.Component {
   constructor (props) {
@@ -21,6 +27,7 @@ export class Counter extends React.Component {
       wish: 'něco super',
       when: undefined,
       binding: bindings[0],
+      selectedTab: 0,
       now: new Date().toISOString(),
       items: []
     }
@@ -47,17 +54,24 @@ export class Counter extends React.Component {
   }
 
   render = () => {
-    const activeWishes = currentWishes(this.state.items, this.state.now).map(item => (
-      <div key={item.timestamp}>
-        {item.wish} {item.binding} {item.remaining}
-      </div>
-    ))
+    const activeWishes = currentWishes(this.state.items, this.state.now).map(
+      item => (
+        <div key={item.timestamp}>
+          {item.wish} {item.binding} {item.remaining}
+        </div>
+      )
+    )
 
-    const passedWishes = oldWishes(this.state.items, this.state.now).map(item => (
-      <div key={item.timestamp}>
-        {item.wish} {item.binding} {item.remaining}
-      </div>
-    ))
+    const tabsStyle = { width: midSize }
+    const buttonStyle = { width: midSize, height: smallSize }
+
+    const passedWishes = oldWishes(this.state.items, this.state.now).map(
+      item => (
+        <div key={item.timestamp}>
+          {item.wish} {item.binding} {item.remaining}
+        </div>
+      )
+    )
 
     return (
       <div
@@ -75,6 +89,7 @@ export class Counter extends React.Component {
             label='Těším se na'
             onChange={this.wishChanged}
             margin='normal'
+            style={{ width: bigSize }}
             required
           />
         </div>
@@ -85,16 +100,11 @@ export class Counter extends React.Component {
             type='datetime-local'
             defaultValue={this.state.when}
             onChange={this.dateChanged}
+            style={{ width: bigSize }}
             InputLabelProps={{
               shrink: true
             }}
           />
-          {/* <input
-            type="datetime-local"
-            min={this.now}
-            onChange={this.dateChanged}
-            required
-          /> */}
         </div>
         <div style={{ display: 'flex' }}>
           <Button
@@ -102,7 +112,7 @@ export class Counter extends React.Component {
             onClick={this.saveWish}
             variant='outlined'
             color='primary'
-            style={{ height: '4rem' }}
+            style={buttonStyle}
           >
             Těšit se!
           </Button>
@@ -110,24 +120,36 @@ export class Counter extends React.Component {
             onClick={this.deleteAll}
             color='secondary'
             variant='outlined'
-            style={{ width: '12rem', height: '4rem' }}
+            style={buttonStyle}
           >
             Vše smazat
             <DeleteIcon />
           </Button>
         </div>
 
-        <div className='row'>
-          <h2>Na co už se těším?</h2>
-          {activeWishes}
-        </div>
-        <div className='row'>
-          <h2>Co uz bylo?</h2>
-          {passedWishes}
-        </div>
+        <Tabs value={this.state.selectedTab} onChange={this.handleChange}>
+          <Tab label='Na co se těším?' style={tabsStyle} />
+          <Tab label='Archivní přání' style={tabsStyle} />
+        </Tabs>
+
+        {this.state.selectedTab === 0 && (
+          <div className='row'>
+            <h2>Na co už se těším?</h2>
+            {activeWishes}
+          </div>
+        )}
+
+        {this.state.selectedTab === 1 && (
+          <div className='row'>
+            <h2>Co už bylo?</h2>
+            {passedWishes}
+          </div>
+        )}
       </div>
     )
   }
+
+  handleChange = (_, selectedTab) => this.setState({ selectedTab: selectedTab })
 
   saveWish = () => {
     const newWish = {
@@ -166,6 +188,8 @@ export class Counter extends React.Component {
   }
 }
 
-export const currentWishes = (wishes, now) => wishes.filter(wish => wish.when > now)
+export const currentWishes = (wishes, now) =>
+  wishes.filter(wish => wish.when > now)
 
-export const oldWishes = (wishes, now) => wishes.filter(wish => wish.when <= now)
+export const oldWishes = (wishes, now) =>
+  wishes.filter(wish => wish.when <= now)

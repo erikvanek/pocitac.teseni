@@ -22,7 +22,9 @@ test('filter passed items', () => {
   const firstOctober = new Date(2019, 9, 1, 11, 0)
   const secondOctober = new Date(2019, 9, 2, 11, 0)
   const now = new Date(2019, 8, 30, 16, 0)
-  const wishes = [lastSeptemmber, firstOctober, secondOctober].map(when => ({when}))
+  const wishes = [lastSeptemmber, firstOctober, secondOctober].map(when => ({
+    when
+  }))
   const passedWishes = oldWishes(wishes, now)
   const activeWishes = currentWishes(wishes, now)
   expect(activeWishes.length).toBe(2)
