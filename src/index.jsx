@@ -1,6 +1,6 @@
-"use strict";
-import {Counter} from './counter.jsx';
+'use strict'
+import { Counter } from './counter.jsx'
 
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom'
 
-ReactDOM.render(<Counter />, document.getElementById("app"));
+ReactDOM.render(<Counter />, document.getElementById('app'))
